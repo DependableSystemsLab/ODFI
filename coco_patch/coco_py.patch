@@ -1,0 +1,40 @@
+diff --git a/PythonAPI/pycocotools/coco.py b/PythonAPI/pycocotools/coco.py
+index e4182c7..70c27b2 100644
+--- a/PythonAPI/pycocotools/coco.py
++++ b/PythonAPI/pycocotools/coco.py
+@@ -238,7 +238,7 @@ class COCO:
+         """
+         if len(anns) == 0:
+             return 0
+-        if 'segmentation' in anns[0] or 'keypoints' in anns[0]:
++        if 'segmentation' in anns[0] or 'keypoints' in anns[0] or 'bbox' in anns[0]:
+             datasetType = 'instances'
+         elif 'caption' in anns[0]:
+             datasetType = 'captions'
+@@ -256,7 +256,7 @@ class COCO:
+                         # polygon
+                         for seg in ann['segmentation']:
+                             poly = np.array(seg).reshape((int(len(seg)/2), 2))
+-                            polygons.append(Polygon(poly))
++                            #polygons.append(Polygon(poly))
+                             color.append(c)
+                     else:
+                         # mask
+@@ -294,8 +294,8 @@ class COCO:
+                     polygons.append(Polygon(np_poly))
+                     color.append(c)
+ 
+-            p = PatchCollection(polygons, facecolor=color, linewidths=0, alpha=0.4)
+-            ax.add_collection(p)
++            #p = PatchCollection(polygons, facecolor=color, linewidths=0, alpha=0.4)
++            #ax.add_collection(p)
+             p = PatchCollection(polygons, facecolor='none', edgecolors=color, linewidths=2)
+             ax.add_collection(p)
+         elif datasetType == 'captions':
+@@ -438,4 +438,4 @@ class COCO:
+         """
+         rle = self.annToRLE(ann)
+         m = maskUtils.decode(rle)
+-        return m
+\ No newline at end of file
++        return m
