@@ -1,8 +1,17 @@
 diff --git a/PythonAPI/pycocotools/coco.py b/PythonAPI/pycocotools/coco.py
-index e4182c7..70c27b2 100644
+index e4182c7..23436f1 100644
 --- a/PythonAPI/pycocotools/coco.py
 +++ b/PythonAPI/pycocotools/coco.py
-@@ -238,7 +238,7 @@ class COCO:
+@@ -230,7 +230,7 @@ class COCO:
+         elif type(ids) == int:
+             return [self.imgs[ids]]
+ 
+-    def showAnns(self, anns, draw_bbox=False):
++    def showAnns(self, anns, draw_bbox=False, ax_select=None):
+         """
+         Display the specified annotations.
+         :param anns (array of object): annotations to display
+@@ -238,14 +238,17 @@ class COCO:
          """
          if len(anns) == 0:
              return 0
@@ -11,7 +20,18 @@ index e4182c7..70c27b2 100644
              datasetType = 'instances'
          elif 'caption' in anns[0]:
              datasetType = 'captions'
-@@ -256,7 +256,7 @@ class COCO:
+         else:
+             raise Exception('datasetType not supported')
+         if datasetType == 'instances':
+-            ax = plt.gca()
++            if ax_select is not None:
++                ax = ax_select
++            else:
++                ax = plt.gca()
+             ax.set_autoscale_on(False)
+             polygons = []
+             color = []
+@@ -256,7 +259,7 @@ class COCO:
                          # polygon
                          for seg in ann['segmentation']:
                              poly = np.array(seg).reshape((int(len(seg)/2), 2))
@@ -20,7 +40,7 @@ index e4182c7..70c27b2 100644
                              color.append(c)
                      else:
                          # mask
-@@ -294,8 +294,8 @@ class COCO:
+@@ -294,8 +297,8 @@ class COCO:
                      polygons.append(Polygon(np_poly))
                      color.append(c)
  
@@ -31,7 +51,7 @@ index e4182c7..70c27b2 100644
              p = PatchCollection(polygons, facecolor='none', edgecolors=color, linewidths=2)
              ax.add_collection(p)
          elif datasetType == 'captions':
-@@ -438,4 +438,4 @@ class COCO:
+@@ -438,4 +441,4 @@ class COCO:
          """
          rle = self.annToRLE(ann)
          m = maskUtils.decode(rle)

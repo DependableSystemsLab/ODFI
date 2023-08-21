@@ -86,12 +86,19 @@ Change the relative paths below as appropriate.
 
 * Using long options:
 ```bash
-python inject.py --ann_json ~/ODFI/data/cocotraffic-sample/train_annotations.json --images_path ~/ODFI/data/cocotraffic-sample/train_images --odfi_yaml ~/ODFI/confFiles/mislabel_cat-10.yaml --output ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json
+python inject.py --ann_json ~/ODFI/data/cocotraffic-sample/train_annotations.json --images_path ~/ODFI/data/cocotraffic-sample/train_images --odfi_yaml ~/ODFI/confFiles/mislabel_cat-10.yaml --output ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json --change_file ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.changed
 ```
 
 * Using short options:
 ```bash
-python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/mislabel_cat-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json
+python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/mislabel_cat-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json -c ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.changed
+```
+
+3. Display the before and after images with annotations overlayed, side-by-side.
+You should see the injected annotations marked in red on the After (right) side plot.
+`display.py` will cycle through every image, affected by fault injection.
+```bash
+python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json -c ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.changed
 ```
 
 ## Citation

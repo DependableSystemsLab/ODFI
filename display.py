@@ -1,7 +1,6 @@
 import argparse
 from pycocotools.coco import COCO
 
-import odfi
 from cocoextra import COCOExtra
 
 import json
@@ -14,13 +13,10 @@ parser.add_argument('-a', '--ann_json', dest='train_ann_json', required = True,
 parser.add_argument('-i', '--images_path', dest='train_images_path', required = True,
                     help='Path to training images directory')
 
-parser.add_argument('-y', '--odfi_yaml', dest='odfi_yaml', required = True,
-                    help='Path to ODFI YAML file')
-
-parser.add_argument('-o', '--output', dest='injected_ann_json',
+parser.add_argument('-o', '--output', dest='injected_ann_json', required = True,
                     help='Path to post-injection annotation JSON file')
 
-parser.add_argument('-c', '--change_file', dest='change_file',
+parser.add_argument('-c', '--change_file', dest='change_file', required = True,
                     help='Path to file listing changed images and annotations')
 
 
@@ -32,17 +28,15 @@ def load_coco(annotation_file, train_images_path):
 def main():
     args = parser.parse_args()
 
-    if not args.injected_ann_json:
-        args.injected_ann_json = args.odfi_yaml.split("/")[-1].split(".yaml")[0] + ".json"
+    coco_annotation_orig, cocoextra_orig = load_coco(args.train_ann_json, args.train_images_path)
+    coco_annotation_injected, cocoextra_injected = load_coco(args.injected_ann_json, args.train_images_path)
 
-    coco_annotation, cocoextra = load_coco(args.train_ann_json, args.train_images_path)
+    with open(args.change_file, "r") as outfile:
+        selected_img_ann_ids = json.load(outfile)
 
-    selected_img_ann_ids = odfi.inject(coco_ann=coco_annotation, confFile=args.odfi_yaml)
-    cocoextra.save_ann(args.injected_ann_json)
-
-    if args.change_file:
-        with open(args.change_file, "w") as outfile:
-            json.dump(selected_img_ann_ids, outfile, indent=4)
+    for image_id in selected_img_ann_ids:
+        image_id_int = int(image_id)
+        cocoextra_injected.ann_on_image_sidebyside(image_id_int, coco_annotation_orig, modified_ann_ids=selected_img_ann_ids[image_id], window_title="Before-After on: " + image_id)
 
     return
 
