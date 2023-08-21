@@ -115,8 +115,7 @@ mkdir data/cocotraffic-sample/injected
 The original golden JSON file (supplied under the `ann_json` argument) is not modified.
 The `.changed` file will contain a dictionary of `{image_id: [ann_ids]}` in JSON format, where a list of all the impacted images and annotation ids are shown.
 
-Example injecting Mislabelled Class
-Change the relative paths below as appropriate.
+Example injecting `Mislabelled Class`. Change the relative paths below as appropriate.
 
 * Using long options:
 ```bash
