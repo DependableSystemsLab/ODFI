@@ -11,6 +11,32 @@ You may read more about the description of each fault type in the [paper](https:
 * Redundant Annotation (`redundant_ann`)
 
 
+## Directory Layout
+
+```
+.
+├── cocoextra.py
+├── coco_patch
+│   └── coco_py.patch
+├── confFiles
+├── data
+│   └── cocotraffic-sample
+│       ├── injected (create this folder)
+│       ├── train_annotations.json
+│       └── train_images
+├── display.py
+├── examples
+│   └── explore_coco.py
+├── inject.py
+├── odfi.py
+├── README.md
+├── test
+│   ├── confFiles
+    ├── InjectionOverObjectsTest.py
+    └── InjectionPerImageTest.py
+```
+
+
 ## Dependencies
 
 1. Ensure you that you have Python 3+, and have the following dependencies installed.
