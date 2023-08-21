@@ -1,5 +1,7 @@
 # ODFI - Object Detection Fault Injector
 
+## 1. Artifact Description
+
 This repository contains the source code for ODFI, an annotation fault injection tool for object detection datasets in [COCO-Format](https://cocodataset.org/#format-data).
 
 We support five types of annotation faults. Each annotation fault is listed, along with its in-tool abbreviation.
@@ -11,7 +13,7 @@ You may read more about the description of each fault type in the [paper](https:
 * Redundant Annotation (`redundant_ann`)
 
 
-## Directory Layout
+### Directory Layout
 
 ```
 .
@@ -37,7 +39,9 @@ You may read more about the description of each fault type in the [paper](https:
 ```
 
 
-## Dependencies
+## 2. Environment Setup
+
+### Dependencies
 
 1. Ensure you that you have Python 3+, and have the following dependencies installed.
 ```bash
@@ -68,7 +72,9 @@ pip install -e .
 6. COCO API should now be installed. You can confirm this by runing `pip freeze`.
 
 
-## Instructions on Running ODFI Test (Demo) Scripts
+## 3. Getting Started
+
+### Instructions on Running ODFI Test (Demo) Scripts
 
 This is the easiest way to start visualizing the annotation boxes injected / perturbed by ODFI on a COCO-Formatted dataset.
 For your convenience, we have included a small sample of 10 images from COCO-Traffic dataset under the [data](./data/) folder.
@@ -94,12 +100,11 @@ For example, `mislabel_cat-100` means that the mislabelled class fault has been 
 python InjectionOverObjectsTest.py
 ```
 
-## Instructions on Running ODFI on entire datasets
+### Instructions on Running ODFI on Entire Datasets
 
 Please follow these instructions if you want to run ODFI on an entire dataset.
 For your convenience, we have included a small sample of 10 images from COCO-Traffic dataset under the [data](./data/) folder, as well as, predefined YAML files under [confFiles](./confFiles/).
-
-You may read more about how to setup your custom YAML file [here](./confFiles/README.md).
+While you do not need to create additional YAML files for this demo, you may read more about how to setup your custom YAML file [here](./confFiles/README.md).
 
 1. Create a folder to store the injected annotation JSON files.
 ```bash
@@ -108,6 +113,9 @@ mkdir data/cocotraffic-sample/injected
 
 2. Inject annotation faults of your choice into any COCO-Formatted dataset by creating a new JSON file containing the faulty injected annotations
 The original golden JSON file (supplied under the `ann_json` argument) is not modified.
+The `.changed` file will contain a dictionary of `{image_id: [ann_ids]}` in JSON format, where a list of all the impacted images and annotation ids are shown.
+
+Example injecting Mislabelled Class
 Change the relative paths below as appropriate.
 
 * Using long options:
@@ -125,6 +133,31 @@ You should see the injected annotations marked in red on the After (right) side 
 `display.py` will cycle through every image, affected by fault injection.
 ```bash
 python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.json -c ~/ODFI/data/cocotraffic-sample/injected/mislabel_cat-10.changed
+```
+
+4. Try running this for other fault types.
+* Redundant Annotation
+```bash
+python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/redundant_ann-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/redundant_ann-10.json -c ~/ODFI/data/cocotraffic-sample/injected/redundant_ann-10.changed
+python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/redundant_ann-10.json -c ~/ODFI/data/cocotraffic-sample/injected/redundant_ann-10.changed
+```
+
+* Missing Annotation
+```bash
+python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/remove_ann-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/remove_ann-10.json -c ~/ODFI/data/cocotraffic-sample/injected/remove_ann-10.changed
+python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/remove_ann-10.json -c ~/ODFI/data/cocotraffic-sample/injected/remove_ann-10.changed
+```
+
+* Incorrect Bounding Box
+```bash
+python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/incorrect_bb-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/incorrect_bb-10.json -c ~/ODFI/data/cocotraffic-sample/injected/incorrect_bb-10.changed
+python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/incorrect_bb-10.json -c ~/ODFI/data/cocotraffic-sample/injected/incorrect_bb-10.changed
+```
+
+* Mislabelled Superclass
+```bash
+python inject.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -y ~/ODFI/confFiles/mislabel_super-10.yaml -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_super-10.json -c ~/ODFI/data/cocotraffic-sample/injected/mislabel_super-10.changed
+python display.py -a ~/ODFI/data/cocotraffic-sample/train_annotations.json -i ~/ODFI/data/cocotraffic-sample/train_images -o ~/ODFI/data/cocotraffic-sample/injected/mislabel_super-10.json -c ~/ODFI/data/cocotraffic-sample/injected/mislabel_super-10.changed
 ```
 
 ## Citation
