@@ -17,25 +17,25 @@ You may read more about the description of each fault type in the [paper](https:
 
 ```
 .
-├── cocoextra.py
+├── cocoextra.py                            # ODFI's custom extensions to the COCO API
 ├── coco_patch
-│   └── coco_py.patch
-├── confFiles
-├── data
-│   └── cocotraffic-sample
-│       ├── injected (create this folder)
-│       ├── train_annotations.json
-│       └── train_images
-├── display.py
+│   └── coco_py.patch                       # Patches to the COCO API to allow easier visualization of bounding boxes
+├── confFiles                               # Contains pre-defined YAML files for experimental configs. More info in its own README.
+├── data                                    # Folder containing sample data
+│   └── cocotraffic-sample                  # Folder containing sample subset (10 images) from the COCO-Traffic training dataset
+│       ├── injected (create this folder)   # Temporary user created folder to hold post-injection JSON files (not part of repository)
+│       ├── train_annotations.json          # JSON file containing annotation of the 10 training images from COCO-Traffic
+│       └── train_images                    # Folder holding the 10 images in JPG format
+├── display.py                              # Displays injected images with original and faulty annotations overlaid, side by side
 ├── examples
-│   └── explore_coco.py
-├── inject.py
-├── odfi.py
-├── README.md
-├── test
-│   ├── confFiles
-    ├── InjectionOverObjectsTest.py
-    └── InjectionPerImageTest.py
+│   └── explore_coco.py                     # Example code using COCO API (not used in demo below)
+├── inject.py                               # Main entry script to invoke ODFI
+├── odfi.py                                 # File containing most of ODFI's injection implementation
+├── README.md                               # This current file
+├── test                                    # Testsuite / Demo folder
+    ├── confFiles                           # Contains pre-defined YAML files for internal testing purposes only
+    ├── InjectionOverObjectsTest.py         # Test script for injection over objects mode
+    └── InjectionPerImageTest.py            # Test script for injection per image mode
 ```
 
 
