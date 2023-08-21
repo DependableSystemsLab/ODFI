@@ -1,5 +1,7 @@
 # ODFI - Object Detection Fault Injector
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8268080.svg)](https://doi.org/10.5281/zenodo.8268080)
+
 ## 1. Artifact Description
 
 This repository contains the source code for ODFI, an annotation fault injection tool for object detection datasets in [COCO-Format](https://cocodataset.org/#format-data).
